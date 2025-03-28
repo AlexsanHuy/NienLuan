@@ -46,3 +46,30 @@ exports.deleteOrder = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+exports.countQuantityOrder = async (req, res) => {
+    try {
+        const response = await pb.collection("order_detail").getFullList({
+            expand: "pid",
+        });
+
+        const productCount = response.reduce((acc, item) => {
+            const productName = item.expand?.pid?.name || "Không xác định";
+            
+            if (!acc[productName]) {
+                acc[productName] = { name: productName, totalQuantity: 0 };
+            }
+
+            acc[productName].totalQuantity += item.quantity;
+            return acc;
+        }, {});
+
+        const result = Object.values(productCount).sort((a, b) => b.totalQuantity - a.totalQuantity);
+
+        res.status(200).json(result);
+    } catch (error) {
+        console.error("Lỗi khi truy vấn PocketBase:", error);
+        res.status(500).json({ message: "Lỗi server: " + error.message });
+    }
+};
+

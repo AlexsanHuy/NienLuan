@@ -189,4 +189,43 @@ class DatabaseService {
       Format.editToast('Vui lòng nhập đầy đủ thông tin');
     }
   }
+
+  Future<void> changePass(
+      String id, String oldPass, String newPass, String reNewPass) async {
+    try {
+      if (newPass != reNewPass) {
+        Format.editToast('Mật khẩu mới không khớp');
+        return;
+      }
+      await pb.collection('users').update(id, body: {
+        'oldPassword': oldPass,
+        'password': newPass,
+        'passwordConfirm': reNewPass,
+      });
+
+      Format.editToast('Đổi mật khẩu thành công');
+    } catch (e) {
+      if (e.toString().contains('oldPassword')) {
+        Format.editToast('Mật khẩu cũ không chính xác');
+      } else {
+        Format.editToast('Lỗi khi đổi mật khẩu: $e');
+      }
+    }
+  }
+
+  Future<void> sendFeedback(String uid, String feedback) async {
+    try {
+      if (feedback == '') {
+        Format.editToast('Vui lòng nhập ý kiến');
+        return;
+      }
+      await pb.collection('feedbacks').create(body: {
+        'feedback': feedback,
+        'feedback_uid': uid,
+      });
+      Format.editToast('Đã gửi ý kiến');
+    } catch (e) {
+      Format.editToast('Lỗi khi gửi ý kiến: $e');
+    }
+  }
 }

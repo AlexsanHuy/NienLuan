@@ -18,6 +18,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   UserModel? user;
   bool isLoading = true;
+  TextEditingController feedbackController = TextEditingController();
 
   @override
   void initState() {
@@ -29,7 +30,6 @@ class _ProfilePageState extends State<ProfilePage> {
     UserModel? currentUser = await DatabaseService().getCurrentUser();
 
     if (!mounted) return;
-
     setState(() {
       user = currentUser;
       isLoading = false;
@@ -38,6 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void dispose() {
+    feedbackController.dispose();
     super.dispose();
   }
 
@@ -191,7 +192,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ChangePassPage(
-                                  name: user!.name, phone: user!.phone)));
+                                  id: user!.userId,
+                                  name: user!.name,
+                                  phone: user!.phone)));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white, // Changed background color
@@ -221,11 +224,13 @@ class _ProfilePageState extends State<ProfilePage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          title: Text('Đóng góp ý kiến',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black)),
+                          title: Center(
+                              child: Text('Đóng góp ý kiến',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black))),
                           content: TextField(
+                            controller: feedbackController,
                             maxLines: 5,
                             decoration: InputDecoration(
                               hintText: 'Góp ý của bạn',
@@ -258,6 +263,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               onPressed: () {
+                                DatabaseService().sendFeedback(
+                                    user!.userId, feedbackController.text);
+                                feedbackController.clear();
                                 Navigator.pop(context);
                               },
                               child: Text('Gửi',

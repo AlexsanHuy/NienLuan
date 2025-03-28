@@ -33,6 +33,11 @@
           <i class="fa fa-percent"></i> Khuyến mãi
         </RouterLink>
       </li>
+      <li>
+        <RouterLink to="/feedback" class="nav-link">
+          <i class="fa fa-comment"></i> Phản hồi
+        </RouterLink>
+      </li>
     </ul>
     <hr />
     <div class="text-center">

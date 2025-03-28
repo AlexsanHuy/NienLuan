@@ -23,6 +23,9 @@ app.use('/api', ordersRoutes);
 const usersRoutes = require('./app/routes/users.route');
 app.use('/api', usersRoutes);
 
+const feedbackRoutes = require('./app/routes/feedback.route');
+app.use('/api', feedbackRoutes);
+
 app.use((req, res, next) => {
     next(new ApiError(404, 'Not found'));
 });

@@ -18,8 +18,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    initialization();
     super.initState();
+    initialization();
   }
 
   void initialization() async {

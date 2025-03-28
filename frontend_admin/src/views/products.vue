@@ -178,7 +178,7 @@ const getCategoryName = (categoryId) => {
 
 const getImageUrl = (id, image) => {
   return image
-    ? `http://192.168.1.5:8090/api/files/products/${id}/${image}`
+    ? `http://192.168.1.4:8090/api/files/products/${id}/${image}`
     : "https://via.placeholder.com/80";
 };
 

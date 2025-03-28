@@ -5,6 +5,7 @@ import Categories from "@/views/categories.vue";
 import Accounts from "@/views/accounts.vue";
 import Orders from "@/views/orders.vue";
 import Discount from "@/views/discount.vue";
+import Feedback from "@/views/feedback.vue";
 
 const routes = [
   { path: "/", component: Dashboard },
@@ -13,6 +14,7 @@ const routes = [
   { path: "/accounts", component: Accounts },
   { path: "/orders", component: Orders },
   { path: "/discount", component: Discount },
+  { path: "/feedback", component: Feedback },
 ];
 
 const router = createRouter({

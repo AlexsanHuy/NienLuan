@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import '../components/footer.dart';
+import '../services/database_service.dart';
 
 class ChangePassPage extends StatefulWidget {
   final String name;
   final String phone;
-
-  const ChangePassPage({Key? key, required this.name, required this.phone})
+  final String id;
+  const ChangePassPage(
+      {Key? key, required this.name, required this.phone, required this.id})
       : super(key: key);
 
   @override
@@ -197,7 +199,13 @@ class _ChangePassPageState extends State<ChangePassPage> {
                         ),
                         SizedBox(height: 25),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            DatabaseService().changePass(
+                                widget.id,
+                                _oldPassController.text,
+                                _newPassController.text,
+                                _reNewPassController.text);
+                          },
                           child: Text(
                             'Đổi mật khẩu',
                             style: TextStyle(

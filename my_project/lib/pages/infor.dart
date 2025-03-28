@@ -72,9 +72,7 @@ class _InforPageState extends State<InforPage> {
         ),
       ),
       body: isLoading
-          ? const Center(
-              child:
-                  CircularProgressIndicator()) // Hiển thị khi đang tải dữ liệu
+          ? const Center(child: CircularProgressIndicator())
           : user == null
               ? const Center(child: Text('Không có dữ liệu người dùng'))
               : SingleChildScrollView(
@@ -140,9 +138,11 @@ class _InforPageState extends State<InforPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    title: const Text(
-                      'Chỉnh sửa thông tin',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    title: Center(
+                      child: Text(
+                        'Chỉnh sửa thông tin',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                     content: SingleChildScrollView(
                       child: Padding(
@@ -190,30 +190,27 @@ class _InforPageState extends State<InforPage> {
                         ),
                         child: const Text('Hủy'),
                       ),
-                      ElevatedButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: ElevatedButton.styleFrom(
+                      TextButton(
+                        onPressed: () {
+                          DatabaseService().updateUser(
+                            user!.userId,
+                            user!.id,
+                            nameController.text,
+                            phoneController.text,
+                          );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Navigate()));
+                        },
+                        style: TextButton.styleFrom(
                           backgroundColor: Colors.blue,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        child: TextButton(
-                          onPressed: () {
-                            DatabaseService().updateUser(
-                              user!.userId,
-                              user!.id,
-                              nameController.text,
-                              phoneController.text,
-                            );
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Navigate()));
-                          },
-                          child: const Text('Lưu'),
-                        ),
+                        child: const Text('Lưu'),
                       ),
                     ],
                   ),
